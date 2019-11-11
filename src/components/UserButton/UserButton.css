@@ -1,0 +1,11 @@
+.root {
+}
+
+.userpic {
+  margin-right: 0.1em;
+  width: 1em;
+}
+
+.username {
+  text-decoration: underline;
+}

@@ -1,0 +1,14 @@
+{
+  "modules": true,
+  "plugins": {
+    "autoprefixer": {
+      "grid": true
+    },
+    "postcss-modules": {
+      "generateScopedName": "[name]-[local]"
+    },
+    "postcss-nested": {
+      "preserveEmpty": true
+    }
+  }
+}

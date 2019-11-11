@@ -1,0 +1,26 @@
+.root {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header {
+}
+
+.abbr {
+  display: none;
+
+  .header:hover & {
+    display: inline;
+  }
+}
+
+.welcome {
+}
+
+.loading {
+}
+
+.error {
+  color: darkred;
+}

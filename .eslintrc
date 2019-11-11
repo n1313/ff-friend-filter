@@ -1,0 +1,43 @@
+{
+  "extends": "airbnb",
+  "env": {
+    "browser": true
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true,
+      "experimentalObjectRestSpread": true
+    }
+  },
+  "rules": {
+    "linebreak-style": ["error", "unix"],
+    "padded-blocks": "off",
+    "quote-props": "off",
+    "max-len": ["warn", 100],
+    "comma-dangle": ["error", "never"],
+    "react/prefer-stateless-function": "warn",
+    "react/require-default-props": "off",
+    "react/no-array-index-key": "off",
+    "react/jsx-filename-extension": "off",
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": ["**/*.spec.*"] }],
+    "class-methods-use-this": "off",
+    "arrow-parens": ["error", "always"],
+    "curly": ["error", "all"],
+    "no-use-before-define": ["error", { "functions": false }],
+    "spaced-comment": "warn",
+    "newline-per-chained-call": "off",
+    "no-extra-semi": "warn",
+    "no-return-assign": ["error", "except-parens"],
+    "function-paren-newline": "off",
+    "arrow-body-style": "off",
+    "jsx-a11y/no-autofocus": "off",
+    "import/prefer-default-export": "off",
+    "no-else-return": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "object-curly-newline": "off",
+    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+    "jsx-a11y/click-events-have-key-events": "off"
+  }
+}
