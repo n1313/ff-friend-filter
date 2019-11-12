@@ -26,4 +26,4 @@ UserButton.propTypes = {
   className: PropTypes.string
 };
 
-export default UserButton;
+export default React.memo(UserButton);

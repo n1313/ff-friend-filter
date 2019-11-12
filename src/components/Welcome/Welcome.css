@@ -35,3 +35,10 @@
 .token {
   min-height: 8em;
 }
+
+.loading {
+}
+
+.error {
+  color: darkred;
+}

@@ -1,43 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import { useCookie } from '@use-hook/use-cookie';
 import 'whatwg-fetch';
 import 'milligram/dist/milligram.css';
 
-import { getWhoAmI } from '../../utils/api';
+import { reducer, initialState } from '../../utils/reducer';
+import { getWhoAmI, getSubscriptions } from '../../utils/api';
 
+import ErrorBoundary from '../ErrorBoundary';
 import Welcome from '../Welcome';
 import Workspace from '../Workspace';
 import css from './App.css';
 
 const App = () => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [state, dispatch] = useReducer(reducer, initialState);
   const [token, setToken] = useCookie('ffff-token', '');
-  const [user, setUser] = useState({});
+
+  const { user } = state;
 
   useEffect(() => {
-    if (token && !loading && !error && !user.username) {
-      setLoading(true);
+    if (token && !user.loading && !user.error && !user.hasData) {
+      dispatch({ type: 'loginStart' });
       getWhoAmI(token)
         .then((response) => {
           if (response.err) {
-            setUser({});
-            setLoading(false);
-            setError(response.err);
+            dispatch({ type: 'loginError', payload: response.err });
             return;
           }
-          setUser({
-            username: response.users.username,
-            profilePictureLargeUrl: response.users.profilePictureLargeUrl,
-            subscribers: response.users.subscribers,
-            subscriptions: response.users.subscriptions
+          dispatch({
+            type: 'loginSuccess',
+            payload: {
+              id: response.users.id,
+              username: response.users.username,
+              profilePictureLargeUrl: response.users.profilePictureLargeUrl
+            }
           });
-          setLoading(false);
         })
         .catch((e) => {
-          setUser({});
-          setLoading(false);
-          setError(e.toString());
+          dispatch({ type: 'loginError', payload: e.toString() });
           throw e;
         });
     }
@@ -52,11 +51,11 @@ const App = () => {
         </h1>
       </header>
       <section className={css.welcome}>
-        <Welcome error={error} token={token} setToken={setToken} user={user} setUser={setUser} />
-        {loading ? <p className={css.loading}>Loading...</p> : false}
-        {error ? <p className={css.error}>Error! {error}</p> : false}
+        <ErrorBoundary>
+          <Welcome token={token} setToken={setToken} user={user} dispatch={dispatch} />
+        </ErrorBoundary>
       </section>
-      <main>{user.username ? <Workspace user={user} /> : false}</main>
+      {/* <main>{user.username ? <Workspace user={user} /> : false}</main> */}
     </div>
   );
 };

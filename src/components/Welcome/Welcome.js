@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 import UserButton from '../UserButton';
 import css from './Welcome.css';
 
-const Welcome = ({ error, token, setToken, user, setUser }) => {
+const Welcome = ({ token, setToken, user, dispatch }) => {
   const [localToken, setLocalToken] = useState('');
 
   const onSubmit = () => setToken(localToken);
   const onChange = (e) => setLocalToken(e.target.value);
   const onLogout = () => {
     setToken('');
-    setUser({});
+    dispatch({ type: 'logout' });
   };
 
   const scopes = ['read-my-info', 'read-feeds', 'manage-subscription-requests'];
@@ -20,10 +20,10 @@ const Welcome = ({ error, token, setToken, user, setUser }) => {
 
   return (
     <div className={css.root}>
-      {user.username ? (
+      {user.hasData ? (
         <header className={css.iKnowYou}>
           <h3>
-            Hello, <UserButton user={user} className={css.you} />!
+            Hello, <UserButton user={user.data} className={css.you} />!
           </h3>
           <button type="button" onClick={onLogout} className={css.logout}>
             Logout
@@ -32,7 +32,7 @@ const Welcome = ({ error, token, setToken, user, setUser }) => {
       ) : (
         false
       )}
-      {!token || error ? (
+      {!token || user.error ? (
         <section className={css.whoAreYou}>
           <h3>Who are you?</h3>
           <p>
@@ -75,19 +75,26 @@ const Welcome = ({ error, token, setToken, user, setUser }) => {
       ) : (
         false
       )}
+
+      {user.loading ? <p className={css.loading}>Loading...</p> : false}
+      {user.error ? <p className={css.error}>Error! {user.error}</p> : false}
     </div>
   );
 };
 
 Welcome.propTypes = {
   user: PropTypes.shape({
-    username: PropTypes.string,
-    profilePictureLargeUrl: PropTypes.string
-  }).isRequired,
+    data: PropTypes.shape({
+      username: PropTypes.string,
+      profilePictureLargeUrl: PropTypes.string
+    }).isRequired,
+    error: PropTypes.string.isRequired,
+    loading: PropTypes.bool.isRequired,
+    hasData: PropTypes.bool.isRequired
+  }),
   token: PropTypes.string.isRequired,
-  error: PropTypes.string.isRequired,
   setToken: PropTypes.func.isRequired,
-  setUser: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired
 };
 
-export default Welcome;
+export default React.memo(Welcome);
