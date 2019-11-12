@@ -2,8 +2,11 @@
 }
 
 .userpic {
-  margin-right: 0.1em;
-  width: 1em;
+  width: 0.9em;
+  position: relative;
+  top: 1px;
+  right: 1px;
+  margin: 0 2px 0 3px;
 }
 
 .username {

@@ -24,6 +24,7 @@ const App = () => {
         .then((response) => {
           if (response.err) {
             dispatch({ type: 'loginError', payload: response.err });
+            setToken('');
             return;
           }
           dispatch({
@@ -37,6 +38,7 @@ const App = () => {
         })
         .catch((e) => {
           dispatch({ type: 'loginError', payload: e.toString() });
+          setToken('');
           throw e;
         });
     }
