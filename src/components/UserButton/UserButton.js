@@ -7,7 +7,12 @@ import css from './UserButton.css';
 const UserButton = ({ user, className }) => {
   const cn = cx(css.root, className);
   return (
-    <a href={`https://freefeed.net/${user.username}`} className={cn}>
+    <a
+      href={`https://freefeed.net/${user.username}`}
+      className={cn}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       <img src={user.profilePictureLargeUrl} alt={user.username} className={css.userpic} />
       <span className={css.username}>{user.username}</span>
     </a>

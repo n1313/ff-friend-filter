@@ -31,10 +31,10 @@ class ErrorBoundary extends React.PureComponent {
 
       return (
         <div className={css.root}>
-          <h3 className={css.header}>Oops! Something went wrong :(</h3>
-          <p className={css.details}>
+          <h4 className={css.header}>Oops!</h4>
+          <div className={css.details}>
             {error.name}: {error.message} {errorLocation}
-          </p>
+          </div>
         </div>
       );
     }

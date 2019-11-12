@@ -15,3 +15,11 @@ export function getSubscriptions(token, username) {
     }
   }).then((response) => response.json());
 }
+
+export function getSubscribers(token, username) {
+  return fetch(`https://freefeed.net/v1/users/${username}/subscribers`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }).then((response) => response.json());
+}

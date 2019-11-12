@@ -11,12 +11,12 @@ const Welcome = ({ token, setToken, user, dispatch }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     setToken(localToken);
-    dispatch({ type: 'submitToken' });
+    dispatch({ type: 'user/submitToken' });
   };
   const onChange = (e) => setLocalToken(e.target.value);
   const onLogout = () => {
     setToken('');
-    dispatch({ type: 'logout' });
+    dispatch({ type: 'user/logout' });
   };
 
   const scopes = ['read-my-info', 'read-feeds', 'manage-subscription-requests'];

@@ -10,11 +10,16 @@ export const initialState = {
 
 export function reducer(state, action) {
   switch (action.type) {
-    case 'logout': {
-      return initialState;
+    case 'user/logout': {
+      return {
+        ...state,
+        user: {
+          ...initialState.user
+        }
+      };
     }
 
-    case 'submitToken': {
+    case 'user/submitToken': {
       return {
         ...state,
         user: {
@@ -25,7 +30,7 @@ export function reducer(state, action) {
       };
     }
 
-    case 'loginStart': {
+    case 'user/loginStart': {
       return {
         ...state,
         user: {
@@ -35,11 +40,12 @@ export function reducer(state, action) {
       };
     }
 
-    case 'loginSuccess': {
+    case 'user/loginSuccess': {
+      const data = action.payload.users;
       return {
         ...state,
         user: {
-          data: action.payload,
+          data,
           isPristine: false,
           hasData: true,
           loading: false,
@@ -48,7 +54,7 @@ export function reducer(state, action) {
       };
     }
 
-    case 'loginError': {
+    case 'user/error': {
       return {
         ...state,
         user: {
@@ -62,7 +68,7 @@ export function reducer(state, action) {
     }
 
     default: {
-      throw new Error();
+      return undefined;
     }
   }
 }
