@@ -1,0 +1,43 @@
+.root {
+}
+
+.small {
+  font-size: 0.8rem;
+  height: 2.8rem;
+  line-height: 2.8rem;
+  padding: 0 1.5rem;
+}
+
+.primary {
+}
+
+.secondary {
+  composes: global(button-outline);
+}
+
+.loading,
+.loading:hover {
+  background-color: #9b4dcadd;
+  background-image: linear-gradient(
+    135deg,
+    #fff0 0%,
+    #fff0 25%,
+    #9b4dca 25%,
+    #9b4dca 50%,
+    #fff0 50%,
+    #fff0 75%,
+    #9b4dca 75%,
+    #9b4dca 100%
+  );
+  background-size: 50px 50px;
+  animation: move 3s linear infinite;
+}
+
+@keyframes move {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 50px 50px;
+  }
+}
