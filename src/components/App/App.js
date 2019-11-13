@@ -15,7 +15,7 @@ const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [token, setToken] = useCookie('ffff-token', '');
 
-  const { user, subs } = state;
+  const { user, subs, my } = state;
 
   useEffect(() => {
     if (token && !user.loading && !user.error && !user.hasData) {
@@ -56,7 +56,7 @@ const App = () => {
       <main>
         <ErrorBoundary>
           {user.hasData ? (
-            <Workspace token={token} user={user.data} subs={subs} dispatch={dispatch} />
+            <Workspace token={token} user={user.data} subs={subs} my={my} dispatch={dispatch} />
           ) : (
             false
           )}

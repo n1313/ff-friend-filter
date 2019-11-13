@@ -22,16 +22,19 @@ export function reducer(state, action) {
     case 'subs/loadSubsSuccess': {
       const [subscriptionsResponse, subscribersResponse] = action.payload;
       const data = {
-        groups: [],
-        subscriptions: [],
-        subscribers: subscribersResponse.subscribers
+        groups: {},
+        subscriptions: {},
+        subscribers: {}
       };
       subscriptionsResponse.subscribers.forEach((s) => {
         if (s.type === 'user') {
-          data.subscriptions.push(s);
+          data.subscriptions[s.username] = s;
         } else {
-          data.groups.push(s);
+          data.groups[s.username] = s;
         }
+      });
+      subscribersResponse.subscribers.forEach((s) => {
+        data.subscribers[s.username] = s;
       });
       return {
         ...state,

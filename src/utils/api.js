@@ -23,3 +23,15 @@ export function getSubscribers(token, username) {
     }
   }).then((response) => response.json());
 }
+
+export function getPosts(token, username, offset = 0, sortedByDate = true) {
+  const args = [offset ? `offset=${offset}` : false, sortedByDate ? 'sort=created' : '']
+    .filter(Boolean)
+    .join('&');
+
+  return fetch(`https://freefeed.net/v2/timelines/${username}?${args}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }).then((response) => response.json());
+}
