@@ -15,7 +15,9 @@ const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [token, setToken] = useCookie('ffff-token', '');
 
-  const { user, subs, my } = state;
+  console.log(state);
+
+  const { user, subs, myPosts, myDiscussions, allUsers, allPosts } = state;
 
   useEffect(() => {
     if (token && !user.loading && !user.error && !user.hasData) {
@@ -34,11 +36,13 @@ const App = () => {
         })
         .catch((e) => {
           dispatch({ type: 'user/error', payload: e.toString() });
-          setToken('');
+          // setToken('');
           throw e;
         });
     }
   });
+
+  console.log('allPosts', allPosts);
 
   return (
     <div className={css.root}>
@@ -56,7 +60,16 @@ const App = () => {
       <main>
         <ErrorBoundary>
           {user.hasData ? (
-            <Workspace token={token} user={user.data} subs={subs} my={my} dispatch={dispatch} />
+            <Workspace
+              token={token}
+              user={user.data}
+              subs={subs}
+              myPosts={myPosts}
+              myDiscussions={myDiscussions}
+              allPosts={allPosts}
+              state={state}
+              dispatch={dispatch}
+            />
           ) : (
             false
           )}

@@ -1,7 +1,6 @@
 export const initialState = {
-  my: {
+  allPosts: {
     data: {},
-    hasData: false,
     loading: false,
     error: ''
   }
@@ -9,38 +8,37 @@ export const initialState = {
 
 export function reducer(state, action) {
   switch (action.type) {
-    case 'my/loadPosts': {
+    case 'allPosts/load': {
       return {
         ...state,
-        my: {
-          ...state.my,
+        allPosts: {
+          ...state.allPosts,
           loading: true
         }
       };
     }
 
-    case 'my/loadPostsSuccess': {
+    case 'allPosts/success': {
+      const postId = action.payload.id;
       return {
         ...state,
-        my: {
-          ...state.my,
+        allPosts: {
+          ...state.allPosts,
           data: {
-            ...state.my.data,
-            ...action.payload
+            ...state.allPosts.data,
+            [postId]: action.payload
           },
           loading: false,
-          hasData: true,
           error: ''
         }
       };
     }
 
-    case 'my/error': {
+    case 'allPosts/error': {
       return {
         ...state,
         my: {
           data: {},
-          hasData: false,
           loading: false,
           error: String(action.payload)
         }

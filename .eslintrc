@@ -39,6 +39,7 @@
     "object-curly-newline": "off",
     "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
     "jsx-a11y/click-events-have-key-events": "off",
-    "indent": "off"
+    "indent": "off",
+    "operator-linebreak": "off"
   }
 }

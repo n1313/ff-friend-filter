@@ -9,7 +9,7 @@ export const initialState = {
 
 export function reducer(state, action) {
   switch (action.type) {
-    case 'subs/loadSubs': {
+    case 'subs/load': {
       return {
         ...state,
         subs: {
@@ -19,23 +19,27 @@ export function reducer(state, action) {
       };
     }
 
-    case 'subs/loadSubsSuccess': {
+    case 'subs/success': {
       const [subscriptionsResponse, subscribersResponse] = action.payload;
+      const newUsers = {};
       const data = {
-        groups: {},
-        subscriptions: {},
-        subscribers: {}
+        groups: [],
+        subscriptions: [],
+        subscribers: []
       };
-      subscriptionsResponse.subscribers.forEach((s) => {
-        if (s.type === 'user') {
-          data.subscriptions[s.username] = s;
+      subscriptionsResponse.subscribers.forEach((u) => {
+        if (u.type === 'user') {
+          data.subscriptions.push(u.username);
         } else {
-          data.groups[s.username] = s;
+          data.groups.push(u.username);
         }
+        newUsers[u.username] = u;
       });
-      subscribersResponse.subscribers.forEach((s) => {
-        data.subscribers[s.username] = s;
+      subscribersResponse.subscribers.forEach((u) => {
+        data.subscribers.push(u.username);
+        newUsers[u.username] = u;
       });
+
       return {
         ...state,
         subs: {
@@ -44,6 +48,10 @@ export function reducer(state, action) {
           loading: false,
           hasData: true,
           error: ''
+        },
+        allUsers: {
+          ...state.allUsers,
+          ...newUsers
         }
       };
     }

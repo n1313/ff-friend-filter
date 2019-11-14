@@ -41,15 +41,19 @@ export function reducer(state, action) {
     }
 
     case 'user/loginSuccess': {
-      const data = action.payload.users;
+      const me = action.payload.users;
       return {
         ...state,
         user: {
-          data,
+          data: me,
           isPristine: false,
           hasData: true,
           loading: false,
           error: ''
+        },
+        allUsers: {
+          ...state.allUsers,
+          [me.username]: me
         }
       };
     }
