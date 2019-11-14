@@ -20,10 +20,10 @@ const actions = (dispatch, token, username) => {
     dispatch({ type: 'myPosts/load' });
     return api
       .getPosts(token, username, offset)
-      .then((responses) => {
+      .then((response) => {
         dispatch({
           type: 'myPosts/success',
-          payload: responses
+          payload: response
         });
       })
       .catch((e) => {
@@ -36,10 +36,10 @@ const actions = (dispatch, token, username) => {
     dispatch({ type: 'myDiscussions/load' });
     return api
       .getMyDiscussions(token, username, offset, false)
-      .then((responses) => {
+      .then((response) => {
         dispatch({
           type: 'myDiscussions/success',
-          payload: responses
+          payload: response
         });
       })
       .catch((e) => {
@@ -52,10 +52,10 @@ const actions = (dispatch, token, username) => {
     dispatch({ type: 'allPosts/load' });
     return api
       .getFullPost(token, postId)
-      .then((responses) => {
+      .then((response) => {
         dispatch({
           type: 'allPosts/success',
-          payload: responses
+          payload: response
         });
       })
       .catch((e) => {

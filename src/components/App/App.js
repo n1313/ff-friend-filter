@@ -5,19 +5,26 @@ import 'milligram/dist/milligram.css';
 
 import { reducer, initialState } from '../../reducers';
 import { getWhoAmI } from '../../utils/api';
+import actions from '../../utils/actions';
 
 import ErrorBoundary from '../ErrorBoundary';
 import Welcome from '../Welcome';
-import Workspace from '../Workspace';
+import LoadSubscriptions from '../LoadSubscriptions';
+import LoadPosts from '../LoadPosts';
+import LoadDiscussions from '../LoadDiscussions';
+import LoadFullPosts from '../LoadFullPosts';
+// import Results from './Results';
 import css from './App.css';
+
+const MAX_POSTS = 60;
 
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [token, setToken] = useCookie('ffff-token', '');
 
-  console.log(state);
-
   const { user, subs, myPosts, myDiscussions, allUsers, allPosts } = state;
+
+  console.log('state', state);
 
   useEffect(() => {
     if (token && !user.loading && !user.error && !user.hasData) {
@@ -42,7 +49,17 @@ const App = () => {
     }
   });
 
-  console.log('allPosts', allPosts);
+  const { loadSubs, loadMyPosts, loadMyDiscussions, loadFullPost } = actions(
+    dispatch,
+    token,
+    user.data.username
+  );
+
+  const canLoadSubscriptions = true;
+  const canLoadPosts = canLoadSubscriptions && subs.hasData && !subs.loading && !subs.error;
+  const canLoadDiscussions = canLoadPosts && myPosts.hasData && !myPosts.loading && !myPosts.error;
+  const canLoadFullPosts =
+    canLoadDiscussions && myDiscussions.hasData && !myDiscussions.loading && !myDiscussions.error;
 
   return (
     <div className={css.root}>
@@ -57,24 +74,55 @@ const App = () => {
           <Welcome token={token} setToken={setToken} user={user} dispatch={dispatch} />
         </ErrorBoundary>
       </section>
-      <main>
-        <ErrorBoundary>
-          {user.hasData ? (
-            <Workspace
-              token={token}
-              user={user.data}
-              subs={subs}
-              myPosts={myPosts}
-              myDiscussions={myDiscussions}
-              allPosts={allPosts}
-              state={state}
-              dispatch={dispatch}
-            />
+
+      {user.hasData ? (
+        <main>
+          {canLoadSubscriptions ? (
+            <ErrorBoundary>
+              <LoadSubscriptions subs={subs} loadSubs={loadSubs} />
+            </ErrorBoundary>
           ) : (
             false
           )}
-        </ErrorBoundary>
-      </main>
+          {canLoadPosts ? (
+            <ErrorBoundary>
+              <LoadPosts
+                myPosts={myPosts}
+                loadMyPosts={loadMyPosts}
+                max={MAX_POSTS}
+                total={parseInt(user.data.statistics.posts, 10)}
+              />
+            </ErrorBoundary>
+          ) : (
+            false
+          )}
+          {canLoadDiscussions ? (
+            <ErrorBoundary>
+              <LoadDiscussions
+                myDiscussions={myDiscussions}
+                loadMyDiscussions={loadMyDiscussions}
+                max={MAX_POSTS}
+                total={
+                  parseInt(user.data.statistics.comments, 10) +
+                  parseInt(user.data.statistics.likes, 10)
+                }
+              />
+            </ErrorBoundary>
+          ) : (
+            false
+          )}
+          {canLoadFullPosts ? (
+            <ErrorBoundary>
+              <LoadFullPosts allPosts={allPosts} loadFullPost={loadFullPost} />
+            </ErrorBoundary>
+          ) : (
+            false
+          )}
+          {/* <Results state={state} /> */}
+        </main>
+      ) : (
+        false
+      )}
     </div>
   );
 };

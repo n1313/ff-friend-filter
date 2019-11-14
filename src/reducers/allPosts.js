@@ -19,14 +19,14 @@ export function reducer(state, action) {
     }
 
     case 'allPosts/success': {
-      const postId = action.payload.id;
+      const postId = action.payload.posts.id;
       return {
         ...state,
         allPosts: {
           ...state.allPosts,
           data: {
             ...state.allPosts.data,
-            [postId]: action.payload
+            [postId]: action.payload.posts
           },
           loading: false,
           error: ''
