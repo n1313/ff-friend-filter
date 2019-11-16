@@ -13,9 +13,11 @@ const LoadDiscussions = ({ myDiscussions, loadMyDiscussions, max, total }) => {
     }
   });
 
+  const notDone = maxDiscussions > currentDiscussions;
+
   return (
     <div className={css.root}>
-      {myDiscussions.loading ? (
+      {notDone ? (
         <p className={css.loading}>
           Loading your recent discussions... {currentDiscussions}/{maxDiscussions}
         </p>

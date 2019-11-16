@@ -16,9 +16,11 @@ const LoadFullPosts = ({ allPosts, loadFullPost }) => {
     }
   });
 
+  const notDone = postsWithoutLikesOrComments.length > 0;
+
   return (
     <div className={css.root}>
-      {allPosts.loading ? (
+      {notDone ? (
         <p className={css.loading}>
           Loading likes and comments... {totalAllPosts - postsWithoutLikesOrComments.length}/
           {totalAllPosts}

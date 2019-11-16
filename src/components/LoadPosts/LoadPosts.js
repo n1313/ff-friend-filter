@@ -13,9 +13,11 @@ const LoadPosts = ({ myPosts, loadMyPosts, max, total }) => {
     }
   });
 
+  const notDone = maxPosts > currentPosts;
+
   return (
     <div className={css.root}>
-      {myPosts.loading ? (
+      {notDone ? (
         <p className={css.loading}>
           Loading your recent posts... {currentPosts}/{maxPosts}
         </p>

@@ -16,7 +16,7 @@ import LoadFullPosts from '../LoadFullPosts';
 import Results from '../Results';
 import css from './App.css';
 
-const MAX_POSTS = 120;
+const MAX_POSTS = 30;
 
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -41,7 +41,6 @@ const App = () => {
         })
         .catch((e) => {
           dispatch({ type: 'user/error', payload: e.toString() });
-          // setToken('');
           throw e;
         });
     }
@@ -58,8 +57,6 @@ const App = () => {
   const canLoadDiscussions = canLoadPosts && myPosts.hasData && !myPosts.loading && !myPosts.error;
   const canLoadFullPosts =
     canLoadDiscussions && myDiscussions.hasData && !myDiscussions.loading && !myDiscussions.error;
-
-  // console.log('JSON.stringify(state)', JSON.stringify(state));
 
   return (
     <div className={css.root}>
