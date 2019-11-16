@@ -18,3 +18,7 @@
 
 .welcome {
 }
+
+.progressStatus {
+  min-height: 2em;
+}

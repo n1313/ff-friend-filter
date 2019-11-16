@@ -53,7 +53,7 @@ export function reducer(state, action) {
         },
         allUsers: {
           ...state.allUsers,
-          [me.username]: me
+          [me.id]: me
         }
       };
     }

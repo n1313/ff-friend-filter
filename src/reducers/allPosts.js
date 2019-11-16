@@ -19,7 +19,18 @@ export function reducer(state, action) {
     }
 
     case 'allPosts/success': {
+      const newUsers = {};
+      action.payload.users.forEach((u) => {
+        newUsers[u.id] = u;
+      });
+
+      const newComments = {};
+      action.payload.comments.forEach((c) => {
+        newComments[c.id] = c;
+      });
+
       const postId = action.payload.posts.id;
+
       return {
         ...state,
         allPosts: {
@@ -30,6 +41,14 @@ export function reducer(state, action) {
           },
           loading: false,
           error: ''
+        },
+        allUsers: {
+          ...state.allUsers,
+          ...newUsers
+        },
+        allComments: {
+          ...state.allComments,
+          ...newComments
         }
       };
     }

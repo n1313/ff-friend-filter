@@ -23,8 +23,13 @@ export function reducer(state, action) {
       const newUsers = {};
       [action.payload.subscribers, action.payload.users].forEach((list) => {
         list.forEach((u) => {
-          newUsers[u.username] = u;
+          newUsers[u.id] = u;
         });
+      });
+
+      const newComments = {};
+      action.payload.comments.forEach((c) => {
+        newComments[c.id] = c;
       });
 
       const postIds = [...state.myDiscussions.data];
@@ -50,6 +55,14 @@ export function reducer(state, action) {
             ...state.allPosts.data,
             ...newPosts
           }
+        },
+        allUsers: {
+          ...state.allUsers,
+          ...newUsers
+        },
+        allComments: {
+          ...state.allComments,
+          ...newComments
         }
       };
     }

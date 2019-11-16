@@ -4,10 +4,15 @@ import { reducer as myPostsReducer, initialState as myPostsIS } from './myPosts'
 import { reducer as myDiscussionsReducer, initialState as myDiscussionsIS } from './myDiscussions';
 import { reducer as allUsersReducer, initialState as allUsersIS } from './allUsers';
 import { reducer as allPostsReducer, initialState as allPostsIS } from './allPosts';
+import { reducer as allCommentsReducer, initialState as allCommentsIS } from './allComments';
+
+// import json from './state.json';
+// export const initialState = json;
 
 export const initialState = {
   ...allUsersIS,
   ...allPostsIS,
+  ...allCommentsIS,
   ...userIS,
   ...subsIS,
   ...myPostsIS,
@@ -27,7 +32,8 @@ export function reducer(state, action) {
     myPostsReducer,
     myDiscussionsReducer,
     allUsersReducer,
-    allPostsReducer
+    allPostsReducer,
+    allCommentsReducer
   ];
 
   for (let r = 0; r < reducers.length; r++) {

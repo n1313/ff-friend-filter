@@ -13,18 +13,16 @@ import LoadSubscriptions from '../LoadSubscriptions';
 import LoadPosts from '../LoadPosts';
 import LoadDiscussions from '../LoadDiscussions';
 import LoadFullPosts from '../LoadFullPosts';
-// import Results from './Results';
+import Results from '../Results';
 import css from './App.css';
 
-const MAX_POSTS = 60;
+const MAX_POSTS = 120;
 
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [token, setToken] = useCookie('ffff-token', '');
 
-  const { user, subs, myPosts, myDiscussions, allUsers, allPosts } = state;
-
-  console.log('state', state);
+  const { user, subs, myPosts, myDiscussions, allPosts } = state;
 
   useEffect(() => {
     if (token && !user.loading && !user.error && !user.hasData) {
@@ -61,6 +59,8 @@ const App = () => {
   const canLoadFullPosts =
     canLoadDiscussions && myDiscussions.hasData && !myDiscussions.loading && !myDiscussions.error;
 
+  // console.log('JSON.stringify(state)', JSON.stringify(state));
+
   return (
     <div className={css.root}>
       <header>
@@ -77,48 +77,52 @@ const App = () => {
 
       {user.hasData ? (
         <main>
-          {canLoadSubscriptions ? (
-            <ErrorBoundary>
-              <LoadSubscriptions subs={subs} loadSubs={loadSubs} />
-            </ErrorBoundary>
-          ) : (
-            false
-          )}
-          {canLoadPosts ? (
-            <ErrorBoundary>
-              <LoadPosts
-                myPosts={myPosts}
-                loadMyPosts={loadMyPosts}
-                max={MAX_POSTS}
-                total={parseInt(user.data.statistics.posts, 10)}
-              />
-            </ErrorBoundary>
-          ) : (
-            false
-          )}
-          {canLoadDiscussions ? (
-            <ErrorBoundary>
-              <LoadDiscussions
-                myDiscussions={myDiscussions}
-                loadMyDiscussions={loadMyDiscussions}
-                max={MAX_POSTS}
-                total={
-                  parseInt(user.data.statistics.comments, 10) +
-                  parseInt(user.data.statistics.likes, 10)
-                }
-              />
-            </ErrorBoundary>
-          ) : (
-            false
-          )}
-          {canLoadFullPosts ? (
-            <ErrorBoundary>
-              <LoadFullPosts allPosts={allPosts} loadFullPost={loadFullPost} />
-            </ErrorBoundary>
-          ) : (
-            false
-          )}
-          {/* <Results state={state} /> */}
+          <div className={css.progressStatus}>
+            {canLoadSubscriptions ? (
+              <ErrorBoundary>
+                <LoadSubscriptions subs={subs} loadSubs={loadSubs} />
+              </ErrorBoundary>
+            ) : (
+              false
+            )}
+            {canLoadPosts ? (
+              <ErrorBoundary>
+                <LoadPosts
+                  myPosts={myPosts}
+                  loadMyPosts={loadMyPosts}
+                  max={MAX_POSTS}
+                  total={parseInt(user.data.statistics.posts, 10)}
+                />
+              </ErrorBoundary>
+            ) : (
+              false
+            )}
+            {canLoadDiscussions ? (
+              <ErrorBoundary>
+                <LoadDiscussions
+                  myDiscussions={myDiscussions}
+                  loadMyDiscussions={loadMyDiscussions}
+                  max={MAX_POSTS}
+                  total={
+                    parseInt(user.data.statistics.comments, 10) +
+                    parseInt(user.data.statistics.likes, 10)
+                  }
+                />
+              </ErrorBoundary>
+            ) : (
+              false
+            )}
+            {canLoadFullPosts ? (
+              <ErrorBoundary>
+                <LoadFullPosts allPosts={allPosts} loadFullPost={loadFullPost} />
+              </ErrorBoundary>
+            ) : (
+              false
+            )}
+          </div>
+          <ErrorBoundary>
+            <Results state={state} />
+          </ErrorBoundary>
         </main>
       ) : (
         false

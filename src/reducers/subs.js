@@ -29,15 +29,15 @@ export function reducer(state, action) {
       };
       subscriptionsResponse.subscribers.forEach((u) => {
         if (u.type === 'user') {
-          data.subscriptions.push(u.username);
+          data.subscriptions.push(u.id);
         } else {
-          data.groups.push(u.username);
+          data.groups.push(u.id);
         }
-        newUsers[u.username] = u;
+        newUsers[u.id] = u;
       });
       subscribersResponse.subscribers.forEach((u) => {
-        data.subscribers.push(u.username);
-        newUsers[u.username] = u;
+        data.subscribers.push(u.id);
+        newUsers[u.id] = u;
       });
 
       return {
