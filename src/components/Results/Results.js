@@ -11,6 +11,24 @@ const Results = ({ state }) => {
 
   const myUserId = user.data.id;
 
+  const myHaters = {};
+  subs.data.subscribers.forEach((uid) => {
+    myHaters[uid] = {
+      user: allUsers[uid],
+      likes: 0,
+      comments: 0
+    };
+  });
+
+  const myHates = {};
+  subs.data.subscriptions.forEach((uid) => {
+    myHates[uid] = {
+      user: allUsers[uid],
+      likes: 0,
+      comments: 0
+    };
+  });
+
   const myFans = {};
   myPosts.data.forEach((pid) => {
     const post = allPosts.data[pid];
@@ -23,58 +41,75 @@ const Results = ({ state }) => {
         };
       }
       myFans[uid].likes += 1;
+      if (myHaters[uid]) {
+        delete myHaters[uid];
+      }
     });
     post.comments.forEach((cid) => {
       const comment = allComments[cid];
-      const commentAuthorId = comment.createdBy;
-      if (commentAuthorId === myUserId) {
+      const uid = comment.createdBy;
+      if (uid === myUserId) {
         return;
       }
-      if (!myFans[commentAuthorId]) {
-        myFans[commentAuthorId] = {
-          user: allUsers[commentAuthorId],
+      if (!myFans[uid]) {
+        myFans[uid] = {
+          user: allUsers[uid],
           likes: 0,
           comments: 0
         };
       }
-      myFans[commentAuthorId].comments += 1;
+      myFans[uid].comments += 1;
+      if (myHaters[uid]) {
+        delete myHaters[uid];
+      }
     });
   });
 
   const myLoves = {};
   myDiscussions.data.forEach((pid) => {
     const post = allPosts.data[pid];
-    const authorUserId = post.createdBy;
-    if (authorUserId === myUserId) {
+    const uid = post.createdBy;
+    if (uid === myUserId) {
       return;
     }
-    if (!myLoves[authorUserId]) {
-      myLoves[authorUserId] = {
-        user: allUsers[authorUserId],
+    if (!myLoves[uid]) {
+      myLoves[uid] = {
+        user: allUsers[uid],
         likes: 0,
         comments: 0
       };
     }
     if (post.likes.indexOf(myUserId) > -1) {
-      myLoves[authorUserId].likes += 1;
+      myLoves[uid].likes += 1;
+      if (myHates[uid]) {
+        delete myHates[uid];
+      }
     }
     post.comments.forEach((cid) => {
       const comment = allComments[cid];
       if (comment.createdBy === myUserId) {
-        myLoves[authorUserId].comments += 1;
+        myLoves[uid].comments += 1;
+        if (myHates[uid]) {
+          delete myHates[uid];
+        }
       }
     });
   });
 
   const iHaveFans = Object.keys(myFans).length > 0;
   const iHaveAHeart = Object.keys(myLoves).length > 0;
+  const iAmSoHated = Object.keys(myHaters).length > 0;
+  const iAmSoHateful = Object.keys(myHates).length > 0;
 
   return (
     <div className={css.root}>
       <div className={css.columns}>
         {iHaveFans ? (
           <div className={css.theyLikeMe}>
-            <h3>They like me</h3>
+            <h3>They like you</h3>
+            <p className={css.hint}>
+              <small>Your posts have received likes or comments from them</small>
+            </p>
             <ErrorBoundary>
               <UserListAbsolute users={myFans} subs={subs} />
             </ErrorBoundary>
@@ -84,9 +119,38 @@ const Results = ({ state }) => {
         )}
         {iHaveAHeart ? (
           <div className={css.iLikeThem}>
-            <h3>I like them</h3>
+            <h3>You like them</h3>
+            <p className={css.hint}>
+              <small>You have liked or commented on their posts</small>
+            </p>
             <ErrorBoundary>
               <UserListAbsolute users={myLoves} subs={subs} />
+            </ErrorBoundary>
+          </div>
+        ) : (
+          false
+        )}
+        {iAmSoHated ? (
+          <div className={css.theyHateMe}>
+            <h3>They don&apos;t like you</h3>
+            <p className={css.hint}>
+              <small>They are subscribed to you but do neither like nor comment your posts</small>
+            </p>
+            <ErrorBoundary>
+              <UserListAbsolute users={myHaters} subs={subs} noWarning noMessage />
+            </ErrorBoundary>
+          </div>
+        ) : (
+          false
+        )}
+        {iAmSoHateful ? (
+          <div className={css.theyHateMe}>
+            <h3>You don&apos;t like them</h3>
+            <p className={css.hint}>
+              <small>You are subscribed to them but do neither like nor comment their posts</small>
+            </p>
+            <ErrorBoundary>
+              <UserListAbsolute users={myHates} subs={subs} noWarning noMessage />
             </ErrorBoundary>
           </div>
         ) : (
@@ -113,7 +177,12 @@ Results.propTypes = {
       loading: PropTypes.bool.isRequired,
       hasData: PropTypes.bool.isRequired
     }).isRequired,
-    subs: PropTypes.shape({}).isRequired,
+    subs: PropTypes.shape({
+      data: PropTypes.shape({
+        subscribers: PropTypes.arrayOf(PropTypes.string),
+        subscriptions: PropTypes.arrayOf(PropTypes.string)
+      }).isRequired
+    }),
     myPosts: PropTypes.shape({
       data: PropTypes.arrayOf(PropTypes.string),
       error: PropTypes.string.isRequired,

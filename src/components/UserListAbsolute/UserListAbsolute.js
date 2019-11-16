@@ -4,10 +4,13 @@ import PropTypes from 'prop-types';
 import UserButton from '../UserButton';
 import css from './UserListAbsolute.css';
 
-const CSS_HEIGHT = 1.4;
+const CSS_HEIGHT = 1.5;
 
-const UserListAbsolute = ({ users, subs }) => {
-  const byLikesAndComments = (a, b) => a.likes + a.comments < b.likes + b.comments;
+const UserListAbsolute = ({ users, subs, reverse, noWarning, noMessage }) => {
+  const byLikesAndComments = (a, b) => {
+    const result = a.likes + a.comments < b.likes + b.comments;
+    return reverse ? !result : result;
+  };
   const sortedUserIds = Object.values(users)
     .sort(byLikesAndComments)
     .map((u) => u.user.id);
@@ -19,7 +22,7 @@ const UserListAbsolute = ({ users, subs }) => {
   const getMessage = (u) => (
     <span className={css.message}>
       , {u.likes} likes, {u.comments} comments
-      {iAmSubscribedToThem(u) ? (
+      {noWarning || iAmSubscribedToThem(u) ? (
         false
       ) : (
         <span className={css.attention} title={`You are not subscribed to ${u.user.username}`}>
@@ -39,12 +42,18 @@ const UserListAbsolute = ({ users, subs }) => {
             style={{ height: `${CSS_HEIGHT}em`, top: `${positions[u.user.id] * CSS_HEIGHT}em` }}
           >
             <UserButton user={u.user} />
-            {getMessage(u)}
+            {noMessage ? false : getMessage(u)}
           </li>
         );
       })}
     </ul>
   );
+};
+
+UserListAbsolute.defaultProps = {
+  reverse: false,
+  noMessage: false,
+  noWarning: false
 };
 
 UserListAbsolute.propTypes = {
@@ -68,7 +77,10 @@ UserListAbsolute.propTypes = {
     error: PropTypes.string.isRequired,
     loading: PropTypes.bool.isRequired,
     hasData: PropTypes.bool.isRequired
-  }).isRequired
+  }).isRequired,
+  reverse: PropTypes.bool,
+  noMessage: PropTypes.bool,
+  noWarning: PropTypes.bool
 };
 
 export default React.memo(UserListAbsolute);

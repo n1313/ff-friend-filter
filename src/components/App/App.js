@@ -16,7 +16,7 @@ import LoadFullPosts from '../LoadFullPosts';
 import Results from '../Results';
 import css from './App.css';
 
-const MAX_POSTS = 30;
+const MAX_POSTS = 150;
 
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -57,6 +57,8 @@ const App = () => {
   const canLoadDiscussions = canLoadPosts && myPosts.hasData && !myPosts.loading && !myPosts.error;
   const canLoadFullPosts =
     canLoadDiscussions && myDiscussions.hasData && !myDiscussions.loading && !myDiscussions.error;
+
+  // console.log('JSON.stringify(state)', JSON.stringify(state));
 
   return (
     <div className={css.root}>
@@ -111,7 +113,12 @@ const App = () => {
             )}
             {canLoadFullPosts ? (
               <ErrorBoundary>
-                <LoadFullPosts allPosts={allPosts} loadFullPost={loadFullPost} />
+                <LoadFullPosts
+                  allPosts={allPosts}
+                  loadFullPost={loadFullPost}
+                  myPosts={myPosts}
+                  myDiscussions={myDiscussions}
+                />
               </ErrorBoundary>
             ) : (
               false

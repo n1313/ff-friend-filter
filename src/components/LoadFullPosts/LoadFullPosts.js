@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import css from './LoadFullPosts.css';
 
-const LoadFullPosts = ({ allPosts, loadFullPost }) => {
+const LoadFullPosts = ({ allPosts, loadFullPost, myPosts, myDiscussions }) => {
   const totalAllPosts = Object.keys(allPosts.data).length;
   const postsWithoutLikesOrComments = Object.values(allPosts.data).filter(
     (post) => post.omittedComments > 0 || post.omittedLikes > 0
@@ -17,6 +17,8 @@ const LoadFullPosts = ({ allPosts, loadFullPost }) => {
   });
 
   const notDone = postsWithoutLikesOrComments.length > 0;
+  const knownMyPosts = Object.keys(myPosts.data).length;
+  const knownMyDiscussions = Object.keys(myDiscussions.data).length;
 
   return (
     <div className={css.root}>
@@ -26,7 +28,10 @@ const LoadFullPosts = ({ allPosts, loadFullPost }) => {
           {totalAllPosts}
         </p>
       ) : (
-        false
+        <p className={css.done}>
+          Based on activity in your latest {knownMyPosts} posts and {knownMyDiscussions} posts you
+          participated in...
+        </p>
       )}
       {allPosts.error ? <p className={css.error}>Error! {allPosts.error}</p> : false}
     </div>
@@ -45,7 +50,13 @@ LoadFullPosts.propTypes = {
     error: PropTypes.string.isRequired,
     loading: PropTypes.bool.isRequired
   }).isRequired,
-  loadFullPost: PropTypes.func.isRequired
+  loadFullPost: PropTypes.func.isRequired,
+  myPosts: PropTypes.shape({
+    data: PropTypes.arrayOf(PropTypes.string).isRequired
+  }).isRequired,
+  myDiscussions: PropTypes.shape({
+    data: PropTypes.arrayOf(PropTypes.string).isRequired
+  }).isRequired
 };
 
 export default React.memo(LoadFullPosts);

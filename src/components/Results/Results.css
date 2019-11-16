@@ -9,12 +9,16 @@
   flex-direction: row;
 }
 
-.theyLikeMe {
+.theyLikeMe,
+.iLikeThem,
+.theyHateMe {
   flex: 1;
 }
 
-.iLikeThem {
-  flex: 1;
+.hint {
+  margin-top: -1em;
+  line-height: 1em;
+  min-height: 2em;
 }
 
 .loading {

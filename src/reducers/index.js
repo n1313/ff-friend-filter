@@ -24,7 +24,7 @@ export function reducer(state, action) {
     throw new Error(`Action has no type (${action})`);
   }
 
-  console.info('action', action);
+  // console.info('action', action);
 
   const reducers = [
     userReducer,

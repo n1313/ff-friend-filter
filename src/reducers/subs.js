@@ -1,6 +1,6 @@
 export const initialState = {
   subs: {
-    data: {},
+    data: { subscribers: [], subscriptions: [], groups: [] },
     hasData: false,
     loading: false,
     error: ''
