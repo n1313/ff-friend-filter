@@ -4,19 +4,20 @@
 .subs {
 }
 
-.columns {
+.body {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 
-.theyLikeMe,
-.iLikeThem,
-.theyHateMe {
+.col {
   flex: 1;
+  min-width: 250px;
+  padding-right: 1em;
 }
 
 .hint {
-  margin-top: -1em;
+  margin: -1em 0 1em;
   line-height: 1em;
   min-height: 2em;
 }

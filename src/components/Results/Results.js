@@ -48,6 +48,9 @@ const Results = ({ state }) => {
     post.comments.forEach((cid) => {
       const comment = allComments[cid];
       const uid = comment.createdBy;
+      if (!uid) {
+        return;
+      }
       if (uid === myUserId) {
         return;
       }
@@ -103,9 +106,9 @@ const Results = ({ state }) => {
 
   return (
     <div className={css.root}>
-      <div className={css.columns}>
+      <div className={css.body}>
         {iHaveFans ? (
-          <div className={css.theyLikeMe}>
+          <div className={css.col}>
             <h3>They like you</h3>
             <p className={css.hint}>
               <small>Your posts have received likes or comments from them</small>
@@ -118,7 +121,7 @@ const Results = ({ state }) => {
           false
         )}
         {iHaveAHeart ? (
-          <div className={css.iLikeThem}>
+          <div className={css.col}>
             <h3>You like them</h3>
             <p className={css.hint}>
               <small>You have liked or commented on their posts</small>
@@ -131,7 +134,7 @@ const Results = ({ state }) => {
           false
         )}
         {iAmSoHated ? (
-          <div className={css.theyHateMe}>
+          <div className={css.col}>
             <h3>They don&apos;t like you</h3>
             <p className={css.hint}>
               <small>They are subscribed to you but do neither like nor comment your posts</small>
@@ -144,7 +147,7 @@ const Results = ({ state }) => {
           false
         )}
         {iAmSoHateful ? (
-          <div className={css.theyHateMe}>
+          <div className={css.col}>
             <h3>You don&apos;t like them</h3>
             <p className={css.hint}>
               <small>You are subscribed to them but do neither like nor comment their posts</small>
@@ -218,7 +221,7 @@ Results.propTypes = {
     allComments: PropTypes.objectOf(
       PropTypes.shape({
         id: PropTypes.string.isRequired,
-        createdBy: PropTypes.string.isRequired
+        createdBy: PropTypes.string
       })
     ).isRequired
   })

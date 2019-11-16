@@ -20,6 +20,7 @@ const MAX_POSTS = 150;
 
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  window.__state = state;
   const [token, setToken] = useCookie('ffff-token', '');
 
   const { user, subs, myPosts, myDiscussions, allPosts } = state;
@@ -57,8 +58,7 @@ const App = () => {
   const canLoadDiscussions = canLoadPosts && myPosts.hasData && !myPosts.loading && !myPosts.error;
   const canLoadFullPosts =
     canLoadDiscussions && myDiscussions.hasData && !myDiscussions.loading && !myDiscussions.error;
-
-  // console.log('JSON.stringify(state)', JSON.stringify(state));
+  const canShowResults = !subs.error && !myPosts.error && !myDiscussions.error && !allPosts.error;
 
   return (
     <div className={css.root}>
@@ -75,7 +75,7 @@ const App = () => {
       </section>
 
       {user.hasData ? (
-        <main>
+        <main className={css.main}>
           <div className={css.progressStatus}>
             {canLoadSubscriptions ? (
               <ErrorBoundary>
@@ -124,13 +124,26 @@ const App = () => {
               false
             )}
           </div>
-          <ErrorBoundary>
-            <Results state={state} />
-          </ErrorBoundary>
+          {canShowResults ? (
+            <ErrorBoundary>
+              <Results state={state} />
+            </ErrorBoundary>
+          ) : (
+            false
+          )}
         </main>
       ) : (
         false
       )}
+      <footer className={css.footer}>
+        <small>
+          Made by{' '}
+          <a href="https://freefeed.net/n1313" target="_blank" rel="noreferrer noopener">
+            @n1313
+          </a>
+          . Send me a DM if you have any questions.
+        </small>
+      </footer>
     </div>
   );
 };

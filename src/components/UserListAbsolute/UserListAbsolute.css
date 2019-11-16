@@ -1,10 +1,13 @@
 .root {
-  position: relative;
 }
 
 .user {
-  position: absolute;
+  position: relative;
   transition: top 0.5s;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 0;
 }
 
 .message {
@@ -19,5 +22,4 @@
   background: green;
   color: white;
   border-radius: 100%;
-  margin-left: 0.4em;
 }

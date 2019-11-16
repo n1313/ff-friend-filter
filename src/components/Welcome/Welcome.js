@@ -19,8 +19,13 @@ const Welcome = ({ token, setToken, user, dispatch }) => {
     dispatch({ type: 'user/logout' });
   };
 
-  const scopes = ['read-my-info', 'read-feeds', 'manage-subscription-requests'];
-  const scopesSpans = scopes.map((scope) => <code key={scope}>{scope}</code>);
+  const scopes = ['read-my-info', 'read-users-info', 'read-feeds'];
+  const scopesSpans = scopes.map((scope) => (
+    <React.Fragment key={scope}>
+      {' '}
+      <code>{scope}</code>
+    </React.Fragment>
+  ));
   const scopesUrl = scopes.join('%20');
 
   const welcomeNode = (
@@ -36,10 +41,17 @@ const Welcome = ({ token, setToken, user, dispatch }) => {
 
   const tokenFormNode = (
     <section className={css.whoAreYou}>
-      <h3>Who are you?</h3>
+      <h3>What is this?</h3>
       <p>
-        Please give me an access token so that I could authenticate you and run queries on your
-        behalf. You can create an access token manually on{' '}
+        This a service that will analyze your FreeFeed account and your recent FreeFeed activity to
+        show you data about how your subscribers interact with you, and how you interact with your
+        subscribers, like a list of people who like your posts the most, or a list of people whose
+        posts you like the most.
+      </p>
+      <h3>Access token</h3>
+      <p>
+        Please give me an access token so that I could retrieve the data I need. You can create an
+        access token manually on{' '}
         <a
           href="https://freefeed.net/settings/app-tokens/create"
           target="_blank"
@@ -47,8 +59,7 @@ const Welcome = ({ token, setToken, user, dispatch }) => {
         >
           Generate new token
         </a>{' '}
-        page (I need the following scopes: {scopesSpans}) or simply
-        <br />
+        page (with following permissions: {scopesSpans}) or simply{' '}
         <a
           href={`https://freefeed.net/settings/app-tokens/create?title=FFFF&scopes=${scopesUrl}`}
           target="_blank"

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import UserButton from '../UserButton';
 import css from './UserListAbsolute.css';
 
-const CSS_HEIGHT = 1.5;
+const CSS_HEIGHT = 1.6;
 
 const UserListAbsolute = ({ users, subs, reverse, noWarning, noMessage }) => {
   const byLikesAndComments = (a, b) => {
@@ -21,25 +21,28 @@ const UserListAbsolute = ({ users, subs, reverse, noWarning, noMessage }) => {
   const iAmSubscribedToThem = (u) => subs.data.subscriptions.indexOf(u.user.id) > -1;
   const getMessage = (u) => (
     <span className={css.message}>
-      , {u.likes} likes, {u.comments} comments
+      {' '}
       {noWarning || iAmSubscribedToThem(u) ? (
         false
       ) : (
         <span className={css.attention} title={`You are not subscribed to ${u.user.username}`}>
           !
         </span>
-      )}
+      )}{' '}
+      {u.likes} likes, {u.comments} comments
     </span>
   );
 
   return (
     <ul className={css.root}>
-      {Object.values(users).map((u) => {
+      {Object.values(users).map((u, i) => {
+        const position = positions[u.user.id];
+        const positionDifference = position - i;
         return (
           <li
             key={u.user.id}
             className={css.user}
-            style={{ height: `${CSS_HEIGHT}em`, top: `${positions[u.user.id] * CSS_HEIGHT}em` }}
+            style={{ height: `${CSS_HEIGHT}em`, top: `${positionDifference * CSS_HEIGHT}em` }}
           >
             <UserButton user={u.user} />
             {noMessage ? false : getMessage(u)}

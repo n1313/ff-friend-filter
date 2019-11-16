@@ -5,6 +5,11 @@ const actions = (dispatch, token, username) => {
     dispatch({ type: 'subs/load' });
     return Promise.all([api.getSubscriptions(token, username), api.getSubscribers(token, username)])
       .then((responses) => {
+        responses.forEach((r) => {
+          if (r.err) {
+            throw r.err;
+          }
+        });
         dispatch({
           type: 'subs/success',
           payload: responses
