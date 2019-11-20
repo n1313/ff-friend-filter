@@ -8,7 +8,7 @@ const CSS_HEIGHT = 1.6;
 
 const UserListAbsolute = ({ users, subs, reverse, noWarning, noMessage }) => {
   const byLikesAndComments = (a, b) => {
-    const result = a.likes + a.comments < b.likes + b.comments;
+    const result = b.likes + b.comments - (a.likes + a.comments);
     return reverse ? !result : result;
   };
   const sortedUserIds = Object.values(users)
