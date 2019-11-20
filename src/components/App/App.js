@@ -16,7 +16,7 @@ import LoadFullPosts from '../LoadFullPosts';
 import Results from '../Results';
 import css from './App.css';
 
-const MAX_POSTS = 150;
+const MAX_POSTS = 300;
 
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);

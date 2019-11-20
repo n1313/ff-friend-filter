@@ -12,24 +12,6 @@ const Results = ({ state }) => {
 
   const myUserId = user.data.id;
 
-  const myHaters = {};
-  subs.data.subscribers.forEach((uid) => {
-    myHaters[uid] = {
-      user: allUsers[uid],
-      likes: 0,
-      comments: 0
-    };
-  });
-
-  const myHates = {};
-  subs.data.subscriptions.forEach((uid) => {
-    myHates[uid] = {
-      user: allUsers[uid],
-      likes: 0,
-      comments: 0
-    };
-  });
-
   const myFans = {};
   myPosts.data.forEach((pid) => {
     const post = allPosts.data[pid];
@@ -42,9 +24,6 @@ const Results = ({ state }) => {
         };
       }
       myFans[uid].likes += 1;
-      if (myHaters[uid]) {
-        delete myHaters[uid];
-      }
     });
     post.comments.forEach((cid) => {
       const comment = allComments[cid];
@@ -63,9 +42,6 @@ const Results = ({ state }) => {
         };
       }
       myFans[uid].comments += 1;
-      if (myHaters[uid]) {
-        delete myHaters[uid];
-      }
     });
   });
 
@@ -85,85 +61,40 @@ const Results = ({ state }) => {
     }
     if (post.likes.indexOf(myUserId) > -1) {
       myLoves[uid].likes += 1;
-      if (myHates[uid]) {
-        delete myHates[uid];
-      }
     }
     post.comments.forEach((cid) => {
       const comment = allComments[cid];
       if (comment.createdBy === myUserId) {
         myLoves[uid].comments += 1;
-        if (myHates[uid]) {
-          delete myHates[uid];
-        }
       }
     });
   });
 
-  const iHaveFans = Object.keys(myFans).length > 0;
-  const iHaveAHeart = Object.keys(myLoves).length > 0;
-  const iAmSoHated = Object.keys(myHaters).length > 0;
-  const iAmSoHateful = Object.keys(myHates).length > 0;
-
   return (
     <div className={css.root}>
       <div className={css.body}>
-        {iHaveFans ? (
-          <div className={css.col}>
-            <h3>They like you</h3>
-            <p className={css.hint}>
-              <small>
-                Your posts have received likes or comments from them.
-                <br />
-                <NotSubscribed /> indicates people that you are not yet subscribed to.
-              </small>
-            </p>
-            <ErrorBoundary>
-              <UserListAbsolute users={myFans} subs={subs} />
-            </ErrorBoundary>
-          </div>
-        ) : (
-          false
-        )}
-        {iHaveAHeart ? (
-          <div className={css.col}>
-            <h3>You like them</h3>
-            <p className={css.hint}>
-              <small>You have liked or commented on their posts.</small>
-            </p>
-            <ErrorBoundary>
-              <UserListAbsolute users={myLoves} subs={subs} />
-            </ErrorBoundary>
-          </div>
-        ) : (
-          false
-        )}
-        {iAmSoHated ? (
-          <div className={css.col}>
-            <h3>They don&apos;t like you</h3>
-            <p className={css.hint}>
-              <small>They are subscribed to you but do neither like nor comment your posts</small>
-            </p>
-            <ErrorBoundary>
-              <UserListAbsolute users={myHaters} subs={subs} noWarning noMessage />
-            </ErrorBoundary>
-          </div>
-        ) : (
-          false
-        )}
-        {iAmSoHateful ? (
-          <div className={css.col}>
-            <h3>You don&apos;t like them</h3>
-            <p className={css.hint}>
-              <small>You are subscribed to them but do neither like nor comment their posts</small>
-            </p>
-            <ErrorBoundary>
-              <UserListAbsolute users={myHates} subs={subs} noWarning noMessage />
-            </ErrorBoundary>
-          </div>
-        ) : (
-          false
-        )}
+        <div className={css.col}>
+          <h3>They like you</h3>
+          <p className={css.hint}>
+            <small>
+              Your posts have received likes or comments from them.
+              <br />
+              <NotSubscribed /> indicates people that you are not yet subscribed to.
+            </small>
+          </p>
+          <ErrorBoundary>
+            <UserListAbsolute users={myFans} subs={subs} />
+          </ErrorBoundary>
+        </div>
+        <div className={css.col}>
+          <h3>You like them</h3>
+          <p className={css.hint}>
+            <small>You have liked or commented on their posts.</small>
+          </p>
+          <ErrorBoundary>
+            <UserListAbsolute users={myLoves} subs={subs} />
+          </ErrorBoundary>
+        </div>
       </div>
     </div>
   );
