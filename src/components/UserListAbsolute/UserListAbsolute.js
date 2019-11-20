@@ -34,22 +34,22 @@ const UserListAbsolute = ({ users, subs, reverse, noWarning, noMessage }) => {
   );
 
   return (
-    <ul className={css.root}>
+    <div className={css.root}>
       {Object.values(users).map((u, i) => {
         const position = positions[u.user.id];
         const positionDifference = position - i;
         return (
-          <li
+          <div
             key={u.user.id}
             className={css.user}
             style={{ height: `${CSS_HEIGHT}em`, top: `${positionDifference * CSS_HEIGHT}em` }}
           >
             <UserButton user={u.user} />
             {noMessage ? false : getMessage(u)}
-          </li>
+          </div>
         );
       })}
-    </ul>
+    </div>
   );
 };
 

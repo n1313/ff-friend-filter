@@ -24,7 +24,9 @@
 }
 
 .progressStatus {
-  min-height: 3em;
+  height: 4em;
+  margin-bottom: 1em;
+  overflow: hidden;
 }
 
 .footer {

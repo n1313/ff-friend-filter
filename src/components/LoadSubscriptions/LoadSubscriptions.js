@@ -8,8 +8,8 @@ const LoadSubscriptions = ({ subs, loadSubs }) => {
   return (
     <div className={css.root}>
       {!subs.hasData && !subs.loading ? <Button onClick={loadSubs}>Start</Button> : false}
-      {subs.loading ? <p className={css.loading}>Loading your subscriptions data...</p> : false}
-      {subs.error ? <p className={css.error}>Error! {subs.error}</p> : false}
+      {subs.loading ? <div className={css.loading}>Loading your subscriptions data...</div> : false}
+      {subs.error ? <div className={css.error}>Error! {subs.error}</div> : false}
     </div>
   );
 };

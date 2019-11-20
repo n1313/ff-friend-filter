@@ -18,13 +18,13 @@ const LoadPosts = ({ myPosts, loadMyPosts, max, total }) => {
   return (
     <div className={css.root}>
       {notDone ? (
-        <p className={css.loading}>
+        <div className={css.loading}>
           Loading your recent posts... {currentPosts}/{maxPosts}
-        </p>
+        </div>
       ) : (
         false
       )}
-      {myPosts.error ? <p className={css.error}>Error! {myPosts.error}</p> : false}
+      {myPosts.error ? <div className={css.error}>Error! {myPosts.error}</div> : false}
     </div>
   );
 };

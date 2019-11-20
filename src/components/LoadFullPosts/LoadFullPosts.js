@@ -23,17 +23,17 @@ const LoadFullPosts = ({ allPosts, loadFullPost, myPosts, myDiscussions }) => {
   return (
     <div className={css.root}>
       {notDone ? (
-        <p className={css.loading}>
+        <div className={css.loading}>
           Loading likes and comments... {totalAllPosts - postsWithoutLikesOrComments.length}/
           {totalAllPosts}
-        </p>
+        </div>
       ) : (
-        <p className={css.done}>
+        <div className={css.done}>
           Based on activity in your latest {knownMyPosts} posts and {knownMyDiscussions} posts you
           participated in...
-        </p>
+        </div>
       )}
-      {allPosts.error ? <p className={css.error}>Error! {allPosts.error}</p> : false}
+      {allPosts.error ? <div className={css.error}>Error! {allPosts.error}</div> : false}
     </div>
   );
 };

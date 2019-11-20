@@ -58,7 +58,14 @@ const App = () => {
   const canLoadDiscussions = canLoadPosts && myPosts.hasData && !myPosts.loading && !myPosts.error;
   const canLoadFullPosts =
     canLoadDiscussions && myDiscussions.hasData && !myDiscussions.loading && !myDiscussions.error;
-  const canShowResults = !subs.error && !myPosts.error && !myDiscussions.error && !allPosts.error;
+  const canShowResults =
+    !subs.error &&
+    subs.hasData &&
+    !myPosts.error &&
+    myPosts.hasData &&
+    !myDiscussions.error &&
+    myDiscussions.hasData &&
+    !allPosts.error;
 
   return (
     <div className={css.root}>

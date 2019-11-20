@@ -13,7 +13,7 @@
 .col {
   flex: 1;
   min-width: 250px;
-  padding-right: 1em;
+  padding-right: 2em;
 }
 
 .hint {

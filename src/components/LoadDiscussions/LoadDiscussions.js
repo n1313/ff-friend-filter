@@ -18,13 +18,13 @@ const LoadDiscussions = ({ myDiscussions, loadMyDiscussions, max, total }) => {
   return (
     <div className={css.root}>
       {notDone ? (
-        <p className={css.loading}>
+        <div className={css.loading}>
           Loading your recent discussions... {currentDiscussions}/{maxDiscussions}
-        </p>
+        </div>
       ) : (
         false
       )}
-      {myDiscussions.error ? <p className={css.error}>Error! {myDiscussions.error}</p> : false}
+      {myDiscussions.error ? <div className={css.error}>Error! {myDiscussions.error}</div> : false}
     </div>
   );
 };
