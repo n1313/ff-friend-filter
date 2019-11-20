@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import ErrorBoundary from '../ErrorBoundary';
+import NotSubscribed from '../NotSubscribed';
 import UserListAbsolute from '../UserListAbsolute';
 
 import css from './Results.css';
@@ -111,7 +112,11 @@ const Results = ({ state }) => {
           <div className={css.col}>
             <h3>They like you</h3>
             <p className={css.hint}>
-              <small>Your posts have received likes or comments from them</small>
+              <small>
+                Your posts have received likes or comments from them.
+                <br />
+                <NotSubscribed /> indicates people that you are not yet subscribed to.
+              </small>
             </p>
             <ErrorBoundary>
               <UserListAbsolute users={myFans} subs={subs} />
@@ -124,7 +129,7 @@ const Results = ({ state }) => {
           <div className={css.col}>
             <h3>You like them</h3>
             <p className={css.hint}>
-              <small>You have liked or commented on their posts</small>
+              <small>You have liked or commented on their posts.</small>
             </p>
             <ErrorBoundary>
               <UserListAbsolute users={myLoves} subs={subs} />

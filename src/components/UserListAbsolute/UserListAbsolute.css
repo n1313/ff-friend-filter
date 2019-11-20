@@ -13,14 +13,3 @@
 
 .message {
 }
-
-.attention {
-  display: inline-block;
-  width: 1em;
-  line-height: 1em;
-  text-align: center;
-  font-weight: bold;
-  background: green;
-  color: white;
-  border-radius: 100%;
-}

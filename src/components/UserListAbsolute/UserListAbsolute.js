@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import NotSubscribed from '../NotSubscribed';
 import UserButton from '../UserButton';
 import css from './UserListAbsolute.css';
 
@@ -25,9 +26,7 @@ const UserListAbsolute = ({ users, subs, reverse, noWarning, noMessage }) => {
       {noWarning || iAmSubscribedToThem(u) ? (
         false
       ) : (
-        <span className={css.attention} title={`You are not subscribed to ${u.user.username}`}>
-          !
-        </span>
+        <NotSubscribed username={u.user.username} />
       )}{' '}
       {u.likes} likes, {u.comments} comments
     </span>
