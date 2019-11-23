@@ -27,7 +27,7 @@ const ShareDialog = ({ users, mode }) => {
     mode === 'myFans' ? 'like me' : 'I like'
   } on FreeFeed the most (based on the last ${config.maxPosts} ${
     mode === 'myFans' ? 'of my posts' : 'posts I participated in'
-  }):\n\n${userListMessage}\n\nGet to know yours at https://n1313.ru/ffff/!`;
+  }):\n\n${userListMessage}\n\nGet to know yours at https://n1313.ru/ffff/! #freefeedfriendfinder`;
 
   return (
     <div className={css.root}>
