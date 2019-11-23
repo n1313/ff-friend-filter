@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import ErrorBoundary from '../ErrorBoundary';
+import ShareDialog from '../ShareDialog';
 import NotSubscribed from '../NotSubscribed';
 import UserListAbsolute from '../UserListAbsolute';
 
@@ -9,7 +10,6 @@ import css from './Results.css';
 
 const Results = ({ state }) => {
   const { user, subs, myPosts, myDiscussions, allPosts, allUsers, allComments } = state;
-
   const myUserId = user.data.id;
 
   const myFans = {};
@@ -88,6 +88,9 @@ const Results = ({ state }) => {
           <ErrorBoundary>
             <UserListAbsolute users={myFans} subs={subs} />
           </ErrorBoundary>
+          <ErrorBoundary>
+            <ShareDialog users={myFans} mode="myFans" />
+          </ErrorBoundary>
         </div>
         <div className={css.col}>
           <h3>You like them ({myLovesCount})</h3>
@@ -96,6 +99,9 @@ const Results = ({ state }) => {
           </p>
           <ErrorBoundary>
             <UserListAbsolute users={myLoves} subs={subs} />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <ShareDialog users={myLoves} mode="myLoves" />
           </ErrorBoundary>
         </div>
       </div>

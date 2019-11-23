@@ -1,5 +1,8 @@
 .root {
-  overflow: hidden;
+  overflow: auto;
+  max-height: 800px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 1em;
 }
 
 .user {

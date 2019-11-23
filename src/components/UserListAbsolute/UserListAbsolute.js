@@ -67,9 +67,7 @@ UserListAbsolute.propTypes = {
   users: PropTypes.objectOf(
     PropTypes.shape({
       user: PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
-        statistics: PropTypes.shape({ posts: PropTypes.string.isRequired })
+        id: PropTypes.string.isRequired
       }),
       likes: PropTypes.number,
       comments: PropTypes.number
@@ -77,13 +75,8 @@ UserListAbsolute.propTypes = {
   ).isRequired,
   subs: PropTypes.shape({
     data: PropTypes.shape({
-      subscribers: PropTypes.arrayOf(PropTypes.string),
-      groups: PropTypes.arrayOf(PropTypes.string),
       subscriptions: PropTypes.arrayOf(PropTypes.string)
-    }).isRequired,
-    error: PropTypes.string.isRequired,
-    loading: PropTypes.bool.isRequired,
-    hasData: PropTypes.bool.isRequired
+    }).isRequired
   }).isRequired,
   reverse: PropTypes.bool,
   noMessage: PropTypes.bool,

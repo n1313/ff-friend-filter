@@ -24,7 +24,7 @@ const actions = (dispatch, token, username) => {
   const loadMyPosts = (offset = 0) => {
     dispatch({ type: 'myPosts/load' });
     return api
-      .getPosts(token, username, offset)
+      .getPosts(token, username, offset, false)
       .then((response) => {
         dispatch({
           type: 'myPosts/success',
