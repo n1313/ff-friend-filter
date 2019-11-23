@@ -5,7 +5,10 @@ import css from './NotSubscribed.css';
 
 const NotSubscribed = ({ username }) => {
   return (
-    <span className={css.root} title={username ? `You are not subscribed to ${username}` : false}>
+    <span
+      className={css.root}
+      title={username ? `You are not subscribed to ${username}` : undefined}
+    >
       !
     </span>
   );

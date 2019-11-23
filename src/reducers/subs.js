@@ -3,7 +3,8 @@ export const initialState = {
     data: { subscribers: [], subscriptions: [], groups: [] },
     hasData: false,
     loading: false,
-    error: ''
+    error: '',
+    isDone: false
   }
 };
 
@@ -47,7 +48,8 @@ export function reducer(state, action) {
           data,
           loading: false,
           hasData: true,
-          error: ''
+          error: '',
+          isDone: true
         },
         allUsers: {
           ...state.allUsers,

@@ -5,32 +5,33 @@ import css from './LoadFullPosts.css';
 
 const LoadFullPosts = ({ allPosts, loadFullPost, myPosts, myDiscussions }) => {
   const totalAllPosts = Object.keys(allPosts.data).length;
-  const postsWithoutLikesOrComments = Object.values(allPosts.data).filter(
+  const knownMyPosts = Object.keys(myPosts.data).length;
+  const knownMyDiscussions = Object.keys(myDiscussions.data).length;
+
+  const withOmittedData = Object.values(allPosts.data).filter(
     (post) => post.omittedComments > 0 || post.omittedLikes > 0
   );
 
+  const isDone = withOmittedData.length === 0;
+
   useEffect(() => {
-    if (!allPosts.loading && !allPosts.error && postsWithoutLikesOrComments.length > 0) {
-      const postId = postsWithoutLikesOrComments[0].id;
+    if (!allPosts.loading && !allPosts.error && !isDone) {
+      const postId = withOmittedData[0].id;
       loadFullPost(postId);
     }
   });
 
-  const notDone = postsWithoutLikesOrComments.length > 0;
-  const knownMyPosts = Object.keys(myPosts.data).length;
-  const knownMyDiscussions = Object.keys(myDiscussions.data).length;
-
   return (
     <div className={css.root}>
-      {notDone ? (
-        <div className={css.loading}>
-          Loading likes and comments... {totalAllPosts - postsWithoutLikesOrComments.length}/
-          {totalAllPosts}
-        </div>
-      ) : (
+      {isDone ? (
         <div className={css.done}>
           Based on activity in your latest {knownMyPosts} posts and {knownMyDiscussions} posts you
           participated in...
+        </div>
+      ) : (
+        <div className={css.loading}>
+          Loading omitted likes and comments... {totalAllPosts - withOmittedData.length}/
+          {totalAllPosts}
         </div>
       )}
       {allPosts.error ? <div className={css.error}>Error! {allPosts.error}</div> : false}

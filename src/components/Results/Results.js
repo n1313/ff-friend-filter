@@ -70,11 +70,14 @@ const Results = ({ state }) => {
     });
   });
 
+  const myFansCount = Object.keys(myFans).length;
+  const myLovesCount = Object.keys(myLoves).length;
+
   return (
     <div className={css.root}>
       <div className={css.body}>
         <div className={css.col}>
-          <h3>They like you</h3>
+          <h3>They like you ({myFansCount})</h3>
           <p className={css.hint}>
             <small>
               Your posts have received likes or comments from them.
@@ -87,7 +90,7 @@ const Results = ({ state }) => {
           </ErrorBoundary>
         </div>
         <div className={css.col}>
-          <h3>You like them</h3>
+          <h3>You like them ({myLovesCount})</h3>
           <p className={css.hint}>
             <small>You have liked or commented on their posts.</small>
           </p>
@@ -105,34 +108,15 @@ Results.propTypes = {
     user: PropTypes.shape({
       data: PropTypes.shape({
         id: PropTypes.string.isRequired,
-        username: PropTypes.string.isRequired,
-        statistics: PropTypes.shape({
-          posts: PropTypes.string,
-          comments: PropTypes.string,
-          likes: PropTypes.string
-        })
-      }).isRequired,
-      error: PropTypes.string.isRequired,
-      loading: PropTypes.bool.isRequired,
-      hasData: PropTypes.bool.isRequired
-    }).isRequired,
-    subs: PropTypes.shape({
-      data: PropTypes.shape({
-        subscribers: PropTypes.arrayOf(PropTypes.string),
-        subscriptions: PropTypes.arrayOf(PropTypes.string)
+        username: PropTypes.string.isRequired
       }).isRequired
-    }),
+    }).isRequired,
+    subs: PropTypes.shape({}),
     myPosts: PropTypes.shape({
-      data: PropTypes.arrayOf(PropTypes.string),
-      error: PropTypes.string.isRequired,
-      loading: PropTypes.bool.isRequired,
-      hasData: PropTypes.bool.isRequired
+      data: PropTypes.arrayOf(PropTypes.string)
     }).isRequired,
     myDiscussions: PropTypes.shape({
-      data: PropTypes.arrayOf(PropTypes.string),
-      error: PropTypes.string.isRequired,
-      loading: PropTypes.bool.isRequired,
-      hasData: PropTypes.bool.isRequired
+      data: PropTypes.arrayOf(PropTypes.string)
     }).isRequired,
     allPosts: PropTypes.shape({
       data: PropTypes.objectOf(
@@ -140,13 +124,9 @@ Results.propTypes = {
           id: PropTypes.string,
           likes: PropTypes.arrayOf(PropTypes.string),
           comments: PropTypes.arrayOf(PropTypes.string),
-          omittedComments: PropTypes.number.isRequired,
-          omittedLikes: PropTypes.number.isRequired,
           createdBy: PropTypes.string.isRequired
         })
-      ),
-      error: PropTypes.string.isRequired,
-      loading: PropTypes.bool.isRequired
+      )
     }).isRequired,
     allUsers: PropTypes.objectOf(
       PropTypes.shape({

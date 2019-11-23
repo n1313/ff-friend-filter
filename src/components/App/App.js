@@ -5,18 +5,12 @@ import 'milligram/dist/milligram.css';
 
 import { reducer, initialState } from '../../reducers';
 import { getWhoAmI } from '../../utils/api';
-import actions from '../../utils/actions';
 
 import ErrorBoundary from '../ErrorBoundary';
 import Welcome from '../Welcome';
-import LoadSubscriptions from '../LoadSubscriptions';
-import LoadPosts from '../LoadPosts';
-import LoadDiscussions from '../LoadDiscussions';
-import LoadFullPosts from '../LoadFullPosts';
+import DataLoader from '../DataLoader';
 import Results from '../Results';
 import css from './App.css';
-
-const MAX_POSTS = 300;
 
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -47,17 +41,6 @@ const App = () => {
     }
   });
 
-  const { loadSubs, loadMyPosts, loadMyDiscussions, loadFullPost } = actions(
-    dispatch,
-    token,
-    user.data.username
-  );
-
-  const canLoadSubscriptions = true;
-  const canLoadPosts = canLoadSubscriptions && subs.hasData && !subs.loading && !subs.error;
-  const canLoadDiscussions = canLoadPosts && myPosts.hasData && !myPosts.loading && !myPosts.error;
-  const canLoadFullPosts =
-    canLoadDiscussions && myDiscussions.hasData && !myDiscussions.loading && !myDiscussions.error;
   const canShowResults =
     !subs.error &&
     subs.hasData &&
@@ -83,54 +66,9 @@ const App = () => {
 
       {user.hasData ? (
         <main className={css.main}>
-          <div className={css.progressStatus}>
-            {canLoadSubscriptions ? (
-              <ErrorBoundary>
-                <LoadSubscriptions subs={subs} loadSubs={loadSubs} />
-              </ErrorBoundary>
-            ) : (
-              false
-            )}
-            {canLoadPosts ? (
-              <ErrorBoundary>
-                <LoadPosts
-                  myPosts={myPosts}
-                  loadMyPosts={loadMyPosts}
-                  max={MAX_POSTS}
-                  total={parseInt(user.data.statistics.posts, 10)}
-                />
-              </ErrorBoundary>
-            ) : (
-              false
-            )}
-            {canLoadDiscussions ? (
-              <ErrorBoundary>
-                <LoadDiscussions
-                  myDiscussions={myDiscussions}
-                  loadMyDiscussions={loadMyDiscussions}
-                  max={MAX_POSTS}
-                  total={
-                    parseInt(user.data.statistics.comments, 10) +
-                    parseInt(user.data.statistics.likes, 10)
-                  }
-                />
-              </ErrorBoundary>
-            ) : (
-              false
-            )}
-            {canLoadFullPosts ? (
-              <ErrorBoundary>
-                <LoadFullPosts
-                  allPosts={allPosts}
-                  loadFullPost={loadFullPost}
-                  myPosts={myPosts}
-                  myDiscussions={myDiscussions}
-                />
-              </ErrorBoundary>
-            ) : (
-              false
-            )}
-          </div>
+          <ErrorBoundary>
+            <DataLoader state={state} dispatch={dispatch} token={token} />
+          </ErrorBoundary>
           {canShowResults ? (
             <ErrorBoundary>
               <Results state={state} />

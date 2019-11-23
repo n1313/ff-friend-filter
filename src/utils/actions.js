@@ -28,7 +28,8 @@ const actions = (dispatch, token, username) => {
       .then((response) => {
         dispatch({
           type: 'myPosts/success',
-          payload: response
+          payload: response,
+          offset
         });
       })
       .catch((e) => {
@@ -44,7 +45,8 @@ const actions = (dispatch, token, username) => {
       .then((response) => {
         dispatch({
           type: 'myDiscussions/success',
-          payload: response
+          payload: response,
+          offset
         });
       })
       .catch((e) => {

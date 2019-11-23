@@ -32,22 +32,27 @@ const UserListAbsolute = ({ users, subs, reverse, noWarning, noMessage }) => {
     </span>
   );
 
+  const userList = Object.values(users);
+  const isEmpty = userList.length === 0;
+
   return (
     <div className={css.root}>
-      {Object.values(users).map((u, i) => {
-        const position = positions[u.user.id];
-        const positionDifference = position - i;
-        return (
-          <div
-            key={u.user.id}
-            className={css.user}
-            style={{ height: `${CSS_HEIGHT}em`, top: `${positionDifference * CSS_HEIGHT}em` }}
-          >
-            <UserButton user={u.user} />
-            {noMessage ? false : getMessage(u)}
-          </div>
-        );
-      })}
+      {isEmpty
+        ? 'None so far'
+        : userList.map((u, i) => {
+            const position = positions[u.user.id];
+            const positionDifference = position - i;
+            return (
+              <div
+                key={u.user.id}
+                className={css.user}
+                style={{ height: `${CSS_HEIGHT}em`, top: `${positionDifference * CSS_HEIGHT}em` }}
+              >
+                <UserButton user={u.user} />
+                {noMessage ? false : getMessage(u)}
+              </div>
+            );
+          })}
     </div>
   );
 };
