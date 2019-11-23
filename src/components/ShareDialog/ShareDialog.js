@@ -23,10 +23,12 @@ const ShareDialog = ({ users, mode }) => {
   };
   const userListMessage = isEmpty ? 'Nobody!' : userList.map(getUserLine).join('\n');
 
-  const message = `Here're the top 10 people who ${
-    mode === 'myFans' ? 'like me' : 'I like'
-  } on FreeFeed the most (based on the last ${config.maxPosts} ${
-    mode === 'myFans' ? 'of my posts' : 'posts I participated in'
+  const message = `Here are the top 10 people who ${
+    mode === 'myFans' ? 'liked me' : 'I liked'
+  } on FreeFeed the most (based on ${
+    mode === 'myFans'
+      ? `my last ${config.maxPosts} posts`
+      : `the last ${config.maxPosts} posts I liked/commented on`
   }):\n\n${userListMessage}\n\nGet to know yours at https://n1313.ru/ffff/! #freefeedfriendfinder`;
 
   return (
